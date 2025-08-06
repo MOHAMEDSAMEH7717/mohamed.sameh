@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mohamed Sameh | Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg-dark: #0e0e0e;
+      --bg-light: #ffffff;
+      --text-dark: #f5f5f5;
+      --text-light: #111111;
+      --accent-dark: #00f0ff;
+      --accent-light: #00aaff;
+      --transition-time: 0.4s;
+      --section-padding: 60px 20px;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-dark);
+      line-height: 1.7;
+      scroll-behavior: smooth;
+      transition: background var(--transition-time), color var(--transition-time);
+      overflow-x: hidden;
+    }
+
+    body.light {
+      background: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    header {
+      height: 100vh;
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+        url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1470&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      color: #fff;
+      padding: 0 20px;
+    }
+
+    header h1 {
+      font-size: 64px;
+      font-weight: 700;
+      animation: fadeInDown 1.2s ease forwards;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 22px;
+      font-weight: 400;
+      color: #ccc;
+      animation: fadeInUp 1.5s ease forwards;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Scroll Fade-in effect for sections */
+    section {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: var(--section-padding);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      background: linear-gradient(135deg, #0e0e0e 0%, #161616 100%);
+    }
+
+    body.light section {
+      background: linear-gradient(135deg, #f9f9f9 0%, #eaeaea 100%);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      font-size: 38px;
+      margin-bottom: 25px;
+      color: var(--accent-dark);
+      border-bottom: 3px solid var(--accent-dark);
+      padding-bottom: 10px;
+      font-weight: 700;
+      transition: color var(--transition-time);
+    }
+
+    body.light h2 {
+      color: var(--accent-light);
+      border-color: var(--accent-light);
+    }
+
+    p, ul {
+      font-size: 18px;
+      margin-bottom: 18px;
+      color: inherit;
+      font-weight: 400;
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-right: 20px;
+    }
+
+    ul li {
+      margin: 10px 0;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 3px 10px rgba(0,240,255,0.15);
+    }
+
+    .gallery img:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .popup img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,240,255,0.8);
+    }
+
+    .popup:target {
+      display: flex;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 15px;
+      color: var(--accent-dark);
+      text-decoration: underline;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    body.light .back-btn {
+      color: var(--accent-light);
+    }
+
+    .back-btn:hover {
+      color: #00ffff;
+    }
+
+    /* Buttons and social icons */
+    .toggle-mode {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: var(--accent-dark);
+      color: #000;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      z-index: 1100;
+      transition: background 0.3s, color 0.3s;
+      box-shadow: 0 4px 10px rgba(0,240,255,0.5);
+    }
+
+    body.light .toggle-mode {
+      background: var(--accent-light);
+      color: #000;
+      box-shadow: 0 4px 10px rgba(0,170,255,0.5);
+    }
+
+    .toggle-mode:hover {
+      background: #00ffff;
+      color: #000;
+    }
+
+    .social-icons {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .social-icons a {
+      font-size: 24px;
+      margin: 0 14px;
+      color: var(--text-dark);
+      background-color: #222;
+      padding: 12px;
+      border-radius: 50%;
+      transition: background 0.3s, color 0.3s;
+      display: inline-block;
+    }
+
+    body.light .social-icons a {
+      color: var(--text-light);
+      background-color: #ddd;
+    }
+
+    .social-icons a:hover {
+      background: var(--accent-dark);
+      color: #000;
+    }
+
+    body.light .social-icons a:hover {
+      background: var(--accent-light);
+      color: #000;
+    }
+
+    footer {
+      text-align: center;
+      background: #111;
+      color: #aaa;
+      padding: 30px 15px;
+      font-size: 14px;
+      margin-top: 60px;
+    }
+
+    body.light footer {
+      background: #eee;
+      color: #555;
+    }
+
+    /* Scroll to top button */
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--accent-dark);
+      color: #000;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,240,255,0.6);
+      display: none;
+      z-index: 1200;
+      transition: background 0.3s;
+    }
+
+    body.light #scrollTopBtn {
+      background: var(--accent-light);
+      color: #000;
+      box-shadow: 0 4px 15px rgba(0,170,255,0.6);
+    }
+
+    #scrollTopBtn:hover {
+      background: #00ffff;
+      color: #000;
+    }
+
+    /* Skill bars */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .skill {
+      flex: 1 1 200px;
+      background: #222;
+      border-radius: 12px;
+      padding: 14px 20px;
+      box-shadow: inset 0 0 10px rgba(0,255,255,0.2);
+      color: #00f0ff;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    body.light .skill {
+      background: #eee;
+      color: #0077aa;
+      box-shadow: inset 0 0 10px rgba(0,170,255,0.2);
+    }
+
+    .skill-name {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .skill-bar {
+      height: 10px;
+      background: rgba(0,255,255,0.2);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .skill-level {
+      height: 100%;
+      background: var(--accent-dark);
+      width: 0;
+      border-radius: 8px;
+      transition: width 1.5s ease-in-out;
+    }
+
+    body.light .skill-level {
+      background: var(--accent-light);
+    }
+
+  </style>
+</head>
+<body>
+
+  <button class="toggle-mode" aria-label="تبديل الوضع" onclick="document.body.classList.toggle('light')">تبديل الوضع</button>
+
+  <header>
+    <div>
+      <h1>محمد سامح</h1>
+      <p>مصمم جرافيك ومسوق إلكتروني | شغوف بالإبداع والابتكار</p>
+    </div>
+  </header>
+
+  <section id="about">
+    <h2>نبذة شخصية</h2>
+    <p>أنا محمد سامح ولدي شغف كبير بمجالات التصميم والتسويق الإلكتروني.</p>
+    <p>بدأت رحلتي منذ 5 سنوات وأعمل باستمرار على تطوير مهاراتي وأفكاري لأقدم محتوى إبداعي ومميز.</p>
+    <p>أؤمن أن التصميم والتسويق يحتاجان لإبداع وتميز، وأسعى لبناء اسم شخصي قوي في السوق من خلال مشاريعي المختلفة.</p>
+  </section>
+
+  <section id="skills" style="background: linear-gradient(135deg, #001a1a, #003333);">
+    <h2>المهارات والخبرات</h2>
+    <p>مهاراتي تشمل التصميم الجرافيكي، التسويق الإلكتروني، والتعامل مع منصات التواصل الاجتماعي بشكل احترافي.</p>
+    <div class="skills">
+      <div class="skill">
+        <div class="skill-name">تصميم جرافيك</div>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 90%;"></div>
+        </div>
+      </div>
+      <div class="skill">
+        <div class="skill-name">تسويق إلكتروني</div>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 85%;"></div>
+        </div>
+      </div>
+          <div class="skill-level" style="width: 65%;"></div>
+        </div>
+      </div>
+    </div>
+  <section id="projects" style="background: linear-gradient(135deg, #001a22, #003344);">
+    <h2>أعمالي ومشاريعي</h2>
+            <li>اشتغلت على تصميمات لشركات ومشاريع أونلاين متنوعة</li>
+      <li>تعاونت مع شركات معروفة مثل:
+        <ul>
+          <li>YALLA MEDIA</li>
+          <li>DIRCT SIGN</li>
+          <li>Power Digital Marketing</li>
+          <li>وحاليًا مع <strong>BENGOO</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="gallery">
+      <a href="#popup1"><img src="final 2.jpg" alt="final 2" loading="lazy" /></a>
+      <a href="#popup2"><img src="اعزل العالم.jpg" alt="اعزل العالم" loading="lazy" /></a>
+      <a href="#popup3"><img src="temp part.jpg" alt="temp part" loading="lazy" /></a>
+    </div>
+  </section>
+
+  <div id="popup1" class="popup" tabindex="-1">
+    <img src="final 2.jpg" alt="final 2" />
+    <a href="#" class="back-btn">رجوع</a>
+  </div>
+  <div id="popup2" class="popup" tabindex="-1">
+    <img src="اعزل العالم.jpg" alt="اعزل العالم" />
+    <a href="#" class="back-btn">رجوع</a>
+  </div>
+  <div id="popup3" class="popup" tabindex="-1">
+    <img src="temp part.jpg" alt="temp part" />
+    <a href="#" class="back-btn">رجوع</a>
+  </div>
+
+  <section id="contact" style="background: linear-gradient(135deg, #001a1a, #003333);">
+    <h2>تواصل معايا</h2>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/mi_do_o7" target="_blank" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.facebook.com/share/1AsM4nYmoy/" target="_blank" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.behance.net/mohamedsameh777" target="_blank" title="Behance" aria-label="Behance"><i class="fab fa-behance"></i></a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Mohamed Sameh | تم تنفيذ الموقع بالتعاون مع Bingo
+  </footer>
+
+  <button id="scrollTopBtn" aria-label="العودة للأعلى" title="العودة للأعلى"><i class="fas fa-arrow-up"></i></button>
+
+  <script>
+    // Scroll fade-in sections
+    const sections = document.querySelectorAll('section');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    function handleScroll() {
+      const scrollY = window.scrollY;
+      sections.forEach(section => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        if (scrollY > top - window.innerHeight + 100) {
+          section.classList.add('visible');
+        }
+      });
+
+      // Show scroll to top button after some scroll
+      if(scrollY > 400){
+        scrollTopBtn.style.display = 'block';
+      } else {
+        scrollTopBtn.style.display = 'none';
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('load', handleScroll);
+
+    // Scroll to top button functionality
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    // Animate skill bars when visible
+    function animateSkills(){
+      const skills = document.querySelectorAll('.skill-level');
+      skills.forEach(skill => {
+        const parent = skill.parentElement.parentElement;
+        if(parent.classList.contains('visible')){
+          skill.style.width = skill.style.width; // triggers transition
+        }
+      });
+    }
+
+    window.addEventListener('scroll', animateSkills);
+    window.addEventListener('load', animateSkills);
+
+  </script>
+</body>
+</html>
