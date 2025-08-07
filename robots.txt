@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mohamedsameh7717.github.io/mohamed.sameh/sitemap.xml
